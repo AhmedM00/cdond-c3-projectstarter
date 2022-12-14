@@ -28,6 +28,7 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
+      <<: *slack_notify
 
   build-backend:
     docker:
@@ -45,6 +46,7 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
+      <<: *slack_notify
 
   test-frontend:
     docker:
@@ -59,6 +61,7 @@ jobs:
             cd frontend
             npm install
             npm run test
+      <<: *slack_notify
 
   test-backend:
     docker:
@@ -73,6 +76,7 @@ jobs:
             cd backend
             npm install
             npm run test
+      <<: *slack_notify
 
   scan-frontend:
     docker:
@@ -88,6 +92,7 @@ jobs:
             npm install
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
+      <<: *slack_notify
 
   scan-backend:
     docker:
