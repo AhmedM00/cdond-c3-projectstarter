@@ -105,10 +105,11 @@ jobs:
             cd backend
             npm install
             npm audit fix --audit-level=critical --force
-            npm update set-value --depth 8
-            npm update union-value --depth 8
-            npm update mkdirp --depth 2
-            npm update mixin-deep --depth 7
+# npm update set-value --depth 8
+# npm update union-value --depth 8
+# npm update mkdirp --depth 2
+# npm update mixin-deep --depth 7
+            npm update
             npm audit --audit-level=critical
       - slack/notify:
           event: fail
