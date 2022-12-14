@@ -1,23 +1,9 @@
 version: 2.1
 
 orbs:
-  node: 'circleci/node:4.1'
   slack: circleci/slack@4.1
 
-jobs:
-  deploy:
-    executor:
-      name: node/default
-    steps:
-      - checkout
-      - node/install-packages
-      - run:
-          command: npm run deploy
-      - slack/notify:
-          channel: project3
-          event: fail
-          template: basic_fail_1
-          
+jobs:     
   build-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -109,12 +95,27 @@ jobs:
             npm install
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
+      - slack/notify:
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: always
 
 workflows:
   my-work-flow:
     jobs:
-      - deploy:
-          context: Project-3-Context
       - build-frontend
       - build-backend
       - test-frontend:
@@ -125,3 +126,4 @@ workflows:
           requires: [build-frontend]
       - scan-backend:
           requires: [build-backend]
+          context: Project-3-Context
