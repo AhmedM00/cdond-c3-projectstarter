@@ -122,8 +122,8 @@ jobs:
       - run:
           name: installing tar and gzip
           command: |
-            sudo yum install tar && \
-            sudo yum install zip unzip
+            yum install tar && \
+            yum install zip unzip
       - run:
           name: creating infrastructure
           command: |
