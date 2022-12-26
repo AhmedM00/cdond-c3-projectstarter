@@ -171,7 +171,7 @@ jobs:
           name: Configure server
           command: |
             ls /tmp && \
-            cat /tmp/inventory.txt && \
+            cat /tmp/project/.circleci/ansible/inventory.txt && \
             ansible-playbook -i /tmp/project/.circleci/ansible/inventory.txt ./.circleci/ansible/configure-server.yml 
 
 workflows:
