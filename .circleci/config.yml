@@ -146,15 +146,18 @@ jobs:
             aws ec2 describe-instances \
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --filters "Name=tag:project,Values=udapeople" \
+            aws ec2 describe-instances \
+                --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                --filters "Name=tag:project,Values=udapeople" \
                 --output text >> inventory.txt
       - run:
-          name: Add the EC2 instance IP to the Ansible inventory
+          name: preview cat
           command: |
-            cat ~/project/.circleci/ansible/inventory.txt
+            cat ~/project/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.circleci/ansible/inventory.txt
+            - project/inventory.txt
 
   configure-infrastructure:
     docker:
@@ -174,8 +177,8 @@ jobs:
       - run:
           name: Configure server
           command: |
-            cat /tmp/project/.circleci/ansible/inventory.txt && \
-            ansible-playbook -i /tmp/project/.circleci/ansible/inventory.txt ./.circleci/ansible/configure-server.yml 
+            cat /tmp/project/inventory.txt && \
+            ansible-playbook -i /tmp/project/inventory.txt ./.circleci/ansible/configure-server.yml 
 
 workflows:
   my-work-flow:
