@@ -152,6 +152,26 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
 
+  configure-infrastructure:
+    docker:
+      - image: python:latest
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["aa:3a:10:34:0f:ad:1f:0e:5b:97:77:aa:80:7f:88:a8"]
+      - attach_workspace:
+          at: project/.circleci/ansible/inventory.txt
+      - run:
+          name: Install dependencies
+          command: |
+            apt-get update && \
+            apt-get dist-upgrade -y && \
+            apt install ansible tar gzip awscli -y
+      - run:
+          name: Configure server
+          command: |
+            ansible-playbook -i project/.circleci/ansible/inventory.txt project/.circleci/ansible/configure-server.yml 
+
 workflows:
   my-work-flow:
     jobs:
@@ -168,3 +188,6 @@ workflows:
       #     requires: [build-backend]
       #     context: Project-3-Context
       - deploy-infrastructure 
+      - configure-infrastructure:
+          requires:
+            - deploy-infrastructure
