@@ -175,7 +175,7 @@ jobs:
           name: Configure server
           command: |
             cat ./.circleci/ansible/inventory.txt && \
-            ansible-playbook ansible_ssh_extra_args='-o StrictHostKeyChecking=no' -i ./.circleci/ansible/inventory.txt ./.circleci/ansible/configure-server.yml 
+            ansible-playbook -i ./.circleci/ansible/inventory.txt ./.circleci/ansible/configure-server.yml 
 
 workflows:
   my-work-flow:
