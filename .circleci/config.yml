@@ -146,7 +146,7 @@ jobs:
             aws ec2 describe-instances \
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --filters "Name=tag:project,Values=udapeople" \
-                --output text >> ~/project/.circleci/ansible/ inventory.txt
+                --output text >> ~/project/.circleci/ansible/inventory.txt
       - run:
           name: preview cat
           command: |
