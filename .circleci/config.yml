@@ -210,7 +210,7 @@ jobs:
           command: |
             yum update -y && yum upgrade -y && \
             yum install python3 -y && \
-            python3 -m pip install --user ansible -y && \
+            python3 -m pip install --user ansible && \
             yum install nodejs npm -y
 
       - run:
