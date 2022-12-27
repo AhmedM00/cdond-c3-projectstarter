@@ -209,7 +209,10 @@ jobs:
           name: Install dependencies
           command: |
             yum update -y && yum upgrade -y && \
-            yum install python ansible node npm -y
+            yum install python3 -y && \
+            python3 -m pip install --user ansible -y && \
+            yum install nodejs npm -y
+
       - run:
           name: Get backend url
           command: |
