@@ -211,7 +211,7 @@ jobs:
             yum update -y && yum upgrade -y && \
             yum install python3 -y && \
             python3 -m pip install --user ansible && \
-            yum install nodejs npm -y
+            yum install nodejs13 -y
 
       - run:
           name: Get backend url
