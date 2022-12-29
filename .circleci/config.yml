@@ -184,7 +184,7 @@ jobs:
   #           cat /tmp/project/.circleci/ansible/inventory.txt && \
   #           ansible-playbook -i /tmp/project/.circleci/ansible/inventory.txt ./.circleci/ansible/configure-server.yml
 
-configure-infrastructure:
+  configure-infrastructure:
     docker:
       - image: python:3.7-alpine3.11
     steps:
