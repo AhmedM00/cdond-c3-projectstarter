@@ -211,7 +211,7 @@ jobs:
             yum update -y && yum upgrade -y && \
             yum install python3 -y && \
             python3 -m pip install --user ansible && \
-            yum install nodejs13 -y
+            yum install nodejs npm --enablerepo=epel -y
 
       - run:
           name: Get backend url
@@ -247,16 +247,16 @@ workflows:
       # - scan-backend:
       #     requires: [build-backend]
       #     context: Project-3-Context
-      - deploy-infrastructure 
-      - configure-infrastructure:
-          requires:
-            - deploy-infrastructure
-      - run-migrations:
-          requires:
-            - deploy-infrastructure
-            - configure-infrastructure
-      - deploy-frontend:
-          requires:
-            - deploy-infrastructure
-            - configure-infrastructure
-            - run-migrations
+      # - deploy-infrastructure 
+      # - configure-infrastructure:
+      #     requires:
+      #       - deploy-infrastructure
+      # - run-migrations:
+      #     requires:
+      #       - deploy-infrastructure
+      #       - configure-infrastructure
+      - deploy-frontend
+          # requires:
+          #   - deploy-infrastructure
+          #   - configure-infrastructure
+          #   - run-migrations
