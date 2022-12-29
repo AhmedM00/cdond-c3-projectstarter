@@ -172,10 +172,17 @@ jobs:
             apt-get update && \
             apt-get dist-upgrade -y && \
             apt install ansible tar gzip awscli -y
+      # - run:
+      #     name: Configure server
+      #     command: |
+      #       cd .circleci/ansible && \
+      #       cat inventory.txt && \
+      #       ansible-playbook -i inventory.txt configure-server.yml
       - run:
           name: Configure server
           command: |
-            cd .circleci/ansible && \
+            cd /tmp && \
+            cd ls && \
             cat inventory.txt && \
             ansible-playbook -i inventory.txt configure-server.yml
 
@@ -247,6 +254,26 @@ jobs:
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
 
+  # deploy-backend:
+  #   docker:
+  #     - image: python:latest
+  #   steps:
+  #     - checkout
+  #     - add_ssh_keys:
+  #         fingerprints: 
+  #           - "aa:3a:10:34:0f:ad:1f:0e:5b:97:77:aa:80:7f:88:a8"
+  #     - attach_workspace:
+  #         at: /tmp
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           # your code here
+  #     - run:
+  #         name: Deploy backend
+  #         command: |
+  #           # your code here
+      # Here's where you will add some code to rollback on failure  
+
 workflows:
   my-work-flow:
     jobs:
@@ -262,13 +289,13 @@ workflows:
       # - scan-backend:
       #     requires: [build-backend]
       #     context: Project-3-Context
-      - deploy-infrastructure 
-      - configure-infrastructure:
-          requires:
-            - deploy-infrastructure
-      - run-migrations:
-          requires:
-            - configure-infrastructure
-      - deploy-frontend:
-          requires:
-            - run-migrations
+      #- deploy-infrastructure 
+      - configure-infrastructure
+          # requires:
+          #   - deploy-infrastructure
+      # - run-migrations:
+      #     requires:
+      #       - configure-infrastructure
+      # - deploy-frontend:
+      #     requires:
+      #       - run-migrations
