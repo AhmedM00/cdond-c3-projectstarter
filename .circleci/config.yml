@@ -156,9 +156,37 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
 
-  configure-infrastructure:
+  # configure-infrastructure:
+  #   docker:
+  #     - image: python:latest
+  #   steps:
+  #     - checkout
+  #     - add_ssh_keys:
+  #         fingerprints: 
+  #           - "aa:3a:10:34:0f:ad:1f:0e:5b:97:77:aa:80:7f:88:a8"
+  #     - attach_workspace:
+  #         at: /tmp
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           apt-get update && \
+  #           apt-get dist-upgrade -y && \
+  #           apt install ansible tar gzip awscli -y
+  #     # - run:
+  #     #     name: Configure server
+  #     #     command: |
+  #     #       cd .circleci/ansible && \
+  #     #       cat inventory.txt && \
+  #     #       ansible-playbook -i inventory.txt configure-server.yml
+  #     - run:
+  #         name: Configure server
+  #         command: |
+  #           cat /tmp/project/.circleci/ansible/inventory.txt && \
+  #           ansible-playbook -i /tmp/project/.circleci/ansible/inventory.txt ./.circleci/ansible/configure-server.yml
+
+configure-infrastructure:
     docker:
-      - image: python:latest
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - add_ssh_keys:
@@ -169,20 +197,13 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apt-get update && \
-            apt-get dist-upgrade -y && \
-            apt install ansible tar gzip awscli -y
-      # - run:
-      #     name: Configure server
-      #     command: |
-      #       cd .circleci/ansible && \
-      #       cat inventory.txt && \
-      #       ansible-playbook -i inventory.txt configure-server.yml
+            apk add --update ansible
       - run:
           name: Configure server
           command: |
             cat /tmp/project/.circleci/ansible/inventory.txt && \
             ansible-playbook -i /tmp/project/.circleci/ansible/inventory.txt ./.circleci/ansible/configure-server.yml
+
 
   run-migrations:
     docker:
