@@ -1,0 +1,5 @@
+- name: Copy file with owner and permissions
+  become: true
+  copy:
+    src: ~/project/backend/artifact.tar.gz
+    dest: ~/
