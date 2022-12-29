@@ -202,7 +202,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            pip install --user ansible
+            apt-get update && \
+            apt-get dist-upgrade -y && \
+            apt install ansible tar gzip awscli -y
 
       - run:
           name: Configure server
