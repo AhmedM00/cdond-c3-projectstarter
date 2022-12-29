@@ -210,8 +210,10 @@ jobs:
           command: |
             cat /etc/*-release && \
             yum update -y && yum upgrade -y && \
-            yum install gcc-c++ make curl -y
-            
+            yum install gcc-c++ make curl -y  && \
+            curl -sL https://rpm.nodesource.com/setup_13.x  && \
+            yum install nodejs  && \
+            node -v 
 
       - run:
           name: Get backend url
