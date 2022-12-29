@@ -216,7 +216,8 @@ jobs:
           name: Configure server
           command: |
             cat /tmp/project/.circleci/ansible/inventory.txt && \
-            ansible-playbook -i /tmp/project/.circleci/ansible/inventory.txt ./.circleci/ansible/configure-server.yml
+            cd .circleci/ansible
+            ansible-playbook -i /tmp/project/.circleci/ansible/inventory.txt configure-server.yml
 
 
   run-migrations:
