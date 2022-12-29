@@ -7,7 +7,12 @@
 - name: extract zip file
   become: true
   shell:
-    "tar -xf artifact.tar.gz"
+    "mkdir project && tar -xf artifact.tar.gz -C project"
+
+- name: putting env file
+  become: true
+  shell:
+    "sudo mv .env.sample .env"
 
 - name: install packages and run the server
   become: true
