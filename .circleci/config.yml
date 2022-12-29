@@ -215,7 +215,7 @@ jobs:
       - run:
           name: install node
           command: |
-            curl -sL https://rpm.nodesource.com/setup_13.x | -E bash - && \
+            curl -sL https://rpm.nodesource.com/setup_13.x && \
             yum install nodejs  && \
             node -v 
 
