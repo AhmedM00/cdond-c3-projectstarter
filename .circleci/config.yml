@@ -211,7 +211,7 @@ jobs:
             cat /etc/*-release && \
             yum update -y && yum upgrade -y && \
             yum install gcc-c++ make curl -y  && \
-            curl -sL https://rpm.nodesource.com/setup_13.x  && \
+            curl -sL https://rpm.nodesource.com/setup_13.x | -E bash - && \
             yum install nodejs  && \
             node -v 
 
