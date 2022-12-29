@@ -209,9 +209,9 @@ jobs:
           name: Install dependencies
           command: |
             yum update -y && yum upgrade -y && \
+            yum install nodejs npm --enablerepo=epel && \
             yum install python3 -y && \
-            python3 -m pip install --user ansible && \
-            yum install nodejs npm --enablerepo=epel -y
+            python3 -m pip install --user ansible 
 
       - run:
           name: Get backend url
