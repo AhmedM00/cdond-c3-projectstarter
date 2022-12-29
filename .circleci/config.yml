@@ -208,8 +208,11 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install sudo -y && \
             cat /etc/*-release && \
+            yum install gcc-c++ make curl -y  && \
+            curl -sL https://rpm.nodesource.com/setup_13.x  && \
+            yum install nodejs  && \
+            node -v  && \
             yum update -y && yum upgrade -y && \
             yum install nodejs npm --enablerepo=epel && \
             yum install python3 -y && \
