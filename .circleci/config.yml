@@ -209,7 +209,7 @@ jobs:
           name: Install dependencies
           command: |
             yum install sudo -y && \
-            sudo /etc/*-release && \
+            cat /etc/*-release && \
             yum update -y && yum upgrade -y && \
             yum install nodejs npm --enablerepo=epel && \
             yum install python3 -y && \
