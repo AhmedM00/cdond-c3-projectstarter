@@ -322,10 +322,10 @@ workflows:
       # - scan-backend:
       #     requires: [build-backend]
       #     context: Project-3-Context
-      #- deploy-infrastructure 
-      - configure-infrastructure
-          # requires:
-          #   - deploy-infrastructure
+      - deploy-infrastructure 
+      - configure-infrastructure:
+          requires:
+            - deploy-infrastructure
       # - run-migrations:
       #     requires:
       #       - configure-infrastructure
