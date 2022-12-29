@@ -210,7 +210,7 @@ jobs:
           command: |
             cat /etc/*-release && \
             yum update -y && yum upgrade -y && \
-            yum install gcc-c++ make curl -y  && \
+            yum install gcc-c++ make curl -y
             
 
       - run:
