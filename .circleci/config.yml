@@ -182,7 +182,7 @@ jobs:
           name: Configure server
           command: |
             cd /tmp && \
-            cd ls && \
+            ls && \
             cat inventory.txt && \
             ansible-playbook -i inventory.txt configure-server.yml
 
