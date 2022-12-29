@@ -186,7 +186,8 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+      #- image: python:3.7-alpine3.11
+      - image: python:latest
     steps:
       - checkout
       - add_ssh_keys:
@@ -194,10 +195,14 @@ jobs:
             - "aa:3a:10:34:0f:ad:1f:0e:5b:97:77:aa:80:7f:88:a8"
       - attach_workspace:
           at: /tmp
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       apk add --update ansible
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible
+            pip install --user ansible
       - run:
           name: Configure server
           command: |
@@ -275,7 +280,7 @@ jobs:
 
   # deploy-backend:
   #   docker:
-  #     - image: python:latest
+  #     - image: python:3.7-alpine3.11
   #   steps:
   #     - checkout
   #     - add_ssh_keys:
@@ -286,12 +291,12 @@ jobs:
   #     - run:
   #         name: Install dependencies
   #         command: |
-  #           # your code here
+  #           apk add --update ansible
   #     - run:
   #         name: Deploy backend
   #         command: |
   #           # your code here
-      # Here's where you will add some code to rollback on failure  
+  #     # Here's where you will add some code to rollback on failure  
 
 workflows:
   my-work-flow:
