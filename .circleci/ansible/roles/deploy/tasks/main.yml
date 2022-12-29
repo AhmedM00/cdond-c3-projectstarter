@@ -12,9 +12,9 @@
 - name: putting env file
   become: true
   shell:
-    "sudo mv .env.sample .env"
+    "cd project && sudo mv .env.sample .env"
 
 - name: install packages and run the server
   become: true
   shell:
-    "sudo npm install && sudo pm2 start npm -- start"
+    "cd project && sudo npm install && sudo pm2 start npm -- start"
