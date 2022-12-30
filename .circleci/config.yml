@@ -341,16 +341,17 @@ jobs:
             build-base 
             pip install awscli --upgrade --user 
             apk add curl
-      - run:
-          name: Get backend url
-          command: |
-              export BACKEND_IP=$(/root/.local/bin/aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:project,Values=udapeople" \
-              --output text)
+      # - run:
+      #     name: Get backend url
+      #     command: |
+              
       - run:
           name: Backend smoke test.
           command: |
+            export BACKEND_IP=$(/root/.local/bin/aws ec2 describe-instances \
+                --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                --filters "Name=tag:project,Values=udapeople" \
+                --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
