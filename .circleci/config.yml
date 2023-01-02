@@ -395,7 +395,8 @@ jobs:
             py-pip \
             build-base 
             pip install awscli --upgrade --user 
-            echo 'alias aws="/root/.local/bin/aws"' >> ~/.bashrc
+            alias aws='/root/.local/bin/aws'
+            export aws
             apk add curl
       - run:
           name: Backend smoke test.
