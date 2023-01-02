@@ -403,7 +403,7 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            alias aws="/root/.local/bin/aws
+            alias aws="/root/.local/bin/aws"
             export aws
             export BACKEND_IP=$(aws ec2 describe-instances \
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
