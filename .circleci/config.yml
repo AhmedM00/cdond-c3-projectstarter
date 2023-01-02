@@ -395,11 +395,12 @@ jobs:
             py-pip \
             build-base 
             pip install awscli --upgrade --user 
-            echo 'alias aws="/root/.local/bin/aws"' >> /etc/profile
             apk add curl
       - run:
           name: Backend smoke test.
           command: |
+            alias aws="/root/.local/bin/aws
+            export aws
             export BACKEND_IP=$(aws ec2 describe-instances \
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --filters "Name=tag:project,Values=udapeople" \
