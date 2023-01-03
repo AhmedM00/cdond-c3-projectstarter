@@ -127,7 +127,6 @@ jobs:
             cd frontend
             npm install
             npm audit fix --audit-level=critical --force
-            npm audit --audit-level=critical
             npm update minimist --depth 4
             npm update loader-utils --depth 2
             npm audit --audit-level=critical
