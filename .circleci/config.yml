@@ -388,8 +388,8 @@ jobs:
 
   smoke-test:
     docker:
-      - image: alpine:latest
-      #- image: node:13.8.0-alpine3.11
+      #- image: alpine:latest
+      - image: node:13.8.0-alpine3.11
     steps:
       - checkout
       - run:
@@ -454,20 +454,20 @@ workflows:
       #     requires: [build-backend]
       #     context: Project-3-Context
 
-      # - deploy-infrastructure 
-      # - configure-infrastructure:
-      #     requires:
-      #       - deploy-infrastructure
-      # - run-migrations:
-      #     requires:
-      #       - configure-infrastructure
-      # - deploy-frontend:
-      #     requires:
-      #       - run-migrations
-      # - deploy-backend:
-      #     requires:
-      #       - run-migrations
-      - smoke-test
-          # requires:
-          #   - deploy-frontend
-          #   - deploy-backend
+      - deploy-infrastructure 
+      - configure-infrastructure:
+          requires:
+            - deploy-infrastructure
+      - run-migrations:
+          requires:
+            - configure-infrastructure
+      - deploy-frontend:
+          requires:
+            - run-migrations
+      - deploy-backend:
+          requires:
+            - run-migrations
+      - smoke-test:
+          requires:
+            - deploy-frontend
+            - deploy-backend
