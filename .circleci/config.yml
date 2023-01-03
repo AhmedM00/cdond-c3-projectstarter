@@ -471,6 +471,10 @@ jobs:
 
             echo OldWorkflowID: "$OldWorkflowID"
             echo Current Workflow Id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - OldWorkflowID.txt
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations:
@@ -481,29 +485,30 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - attach_workspace:
+          at: /tmp
       - run:
           name: Get old stack workflow id and Remove old stacks and files
           command: |
-            export OldWorkflowID=$(aws cloudformation \
-                    list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-                    --no-paginate --output text)
-            echo OldWorkflowID: "${OldWorkflowID}"
+            OldWorkflowID=$(cat /tmp/OldWorkflowID.txt)
+            OldWorkflowID=$(echo "$OldWorkflowID" | cut -d '-' -f 2-)
             echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
 
             export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
                     --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
             echo Stack names: "${STACKS[@]}" 
 
-            if [[ "udapeople-${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
+            if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
             then
-              OldWorkflowID_ONLY=$(echo "$OldWorkflowID" | cut -d '-' -f 2-)
               echo "----------------Delete confirmed--------------------------"
-              echo s3 rm "s3://${OldWorkflowID}" --recursive
-              echo aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID_ONLY}"
-              echo aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID_ONLY}"
-              aws s3 rm "s3://${OldWorkflowID}" --recursive
-              aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID_ONLY}"
-              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID_ONLY}"
+              echo s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+              echo aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
+              echo aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
+
+
+              aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+              aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
+              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
             else
               echo "----------------Cannot Cleanup--------------------------"
             fi
@@ -524,26 +529,26 @@ workflows:
       #     requires: [build-backend]
       #     context: Project-3-Context
 
-      # - deploy-infrastructure 
-      # - configure-infrastructure:
-      #     requires:
-      #       - deploy-infrastructure
-      # - run-migrations:
-      #     requires:
-      #       - configure-infrastructure
-      # - deploy-frontend:
-      #     requires:
-      #       - run-migrations
-      # - deploy-backend:
-      #     requires:
-      #       - run-migrations
-      # - smoke-test:
-      #     requires:
-      #       - deploy-frontend
-      #       - deploy-backend
-      # - cloudfront-update:
-      #     requires:
-      #       - smoke-test
-      - cleanup
-          # requires:
-          #   - cloudfront-update
+      - deploy-infrastructure 
+      - configure-infrastructure:
+          requires:
+            - deploy-infrastructure
+      - run-migrations:
+          requires:
+            - configure-infrastructure
+      - deploy-frontend:
+          requires:
+            - run-migrations
+      - deploy-backend:
+          requires:
+            - run-migrations
+      - smoke-test:
+          requires:
+            - deploy-frontend
+            - deploy-backend
+      - cloudfront-update:
+          requires:
+            - smoke-test
+      - cleanup:
+          requires:
+            - cloudfront-update
