@@ -29,7 +29,7 @@ commands:
                 then
                     cd ~/project/backend
                     npm install
-                    npm run migration:revert
+                    npm run migrations:revert
                 fi
 
   destroy-environment:
@@ -388,8 +388,8 @@ jobs:
 
   smoke-test:
     docker:
-      #- image: alpine:latest
-      - image: node:13.8.0-alpine3.11
+      - image: alpine:latest
+      #- image: node:13.8.0-alpine3.11
     steps:
       - checkout
       - run:
