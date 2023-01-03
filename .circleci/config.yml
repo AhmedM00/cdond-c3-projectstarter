@@ -389,7 +389,7 @@ jobs:
   smoke-test:
     docker:
       #- image: alpine:latest
-      - image: node:13.8.0-slim
+      - image: node:13.8.0-alpine3.11
     steps:
       - checkout
       - run:
