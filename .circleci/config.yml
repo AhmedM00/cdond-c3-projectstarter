@@ -130,7 +130,7 @@ jobs:
             npm audit --audit-level=critical
             npm update minimist --depth 4
             npm update loader-utils --depth 2
-            npm update class-validator
+            npm audit --audit-level=critical
       - slack/notify:
           event: fail
           template: basic_fail_1
@@ -152,6 +152,7 @@ jobs:
             npm update union-value --depth 8
             npm update mkdirp --depth 2
             npm update mixin-deep --depth 7
+            npm update class-validator
             npm audit --audit-level=critical
       - slack/notify:
           event: fail
