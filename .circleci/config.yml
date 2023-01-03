@@ -495,6 +495,7 @@ jobs:
       - run:
           name: Get old stack workflow id and Remove old stacks and files
           command: |
+            ls /tmp
             OldWorkflowID=$(cat /tmp/OldWorkflowID.txt)
             OldWorkflowID=$(echo "$OldWorkflowID" | cut -d '-' -f 2-)
             echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
