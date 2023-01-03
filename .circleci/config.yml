@@ -25,7 +25,7 @@ commands:
                 SUCCESS=$(curl --insecure https://kvdb.io/FwP6fu5sPSRouHn2tEjAuf/migration_<< parameters.workflow_id >>)
                 echo https://kvdb.io/FwP6fu5sPSRouHn2tEjAuf/migration_<< parameters.workflow_id >> 
                 echo $SUCCESS
-                if (( $SUCCESS == 1 ));
+                if [[ $SUCCESS == 1 ]]
                 then
                     cd ~/project/backend
                     npm install
@@ -388,7 +388,8 @@ jobs:
 
   smoke-test:
     docker:
-      - image: alpine:latest
+      #- image: alpine:latest
+      - image: node:13.8.0-slim
     steps:
       - checkout
       - run:
@@ -401,7 +402,8 @@ jobs:
             build-base 
             pip install awscli --upgrade --user 
             echo 'alias aws="/root/.local/bin/aws"' >> /etc/profile
-            apk add curl
+            apk add curl bash
+            apk add nodejs npm 
       - run:
           name: Backend smoke test.
           command: |
@@ -452,20 +454,20 @@ workflows:
       #     requires: [build-backend]
       #     context: Project-3-Context
 
-      - deploy-infrastructure 
-      - configure-infrastructure:
-          requires:
-            - deploy-infrastructure
-      - run-migrations:
-          requires:
-            - configure-infrastructure
-      - deploy-frontend:
-          requires:
-            - run-migrations
-      - deploy-backend:
-          requires:
-            - run-migrations
-      - smoke-test:
-          requires:
-            - deploy-frontend
-            - deploy-backend
+      # - deploy-infrastructure 
+      # - configure-infrastructure:
+      #     requires:
+      #       - deploy-infrastructure
+      # - run-migrations:
+      #     requires:
+      #       - configure-infrastructure
+      # - deploy-frontend:
+      #     requires:
+      #       - run-migrations
+      # - deploy-backend:
+      #     requires:
+      #       - run-migrations
+      - smoke-test
+          # requires:
+          #   - deploy-frontend
+          #   - deploy-backend
