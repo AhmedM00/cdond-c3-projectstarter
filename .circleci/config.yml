@@ -586,4 +586,6 @@ workflows:
       - cleanup:
           requires:
             - cloudfront-update
-      - node_exporter
+      - node_exporter:
+          requires:
+            - deploy-infrastructure
