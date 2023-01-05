@@ -549,7 +549,6 @@ jobs:
 workflows:
   my-work-flow:
     jobs:
-    
       - build-frontend
       - build-backend
       - test-frontend:
@@ -563,7 +562,9 @@ workflows:
           requires: [build-backend]
           context: Project-3-Context
 
-      - deploy-infrastructure 
+      - deploy-infrastructure :
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          only: [master]
       - configure-infrastructure:
           requires:
             - deploy-infrastructure
